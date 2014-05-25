@@ -12,7 +12,7 @@ int main () {
     int numbers[100000];
     
     string line;
-    ifstream myfile ("/Users/tjordan/Desktop/Algo/hw1/algoHW1/algoHW1/IntegerArray.txt");
+    ifstream myfile ("/Users/tjordan/Desktop/AlgorithmsDesignAndAnalysis/hw1/IntegerArray.txt");
     if (myfile.is_open()) {
         int position = 0;
         while ( myfile.good() ) {
