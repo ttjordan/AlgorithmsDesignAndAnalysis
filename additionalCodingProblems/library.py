@@ -225,7 +225,11 @@ class Library(object):
         cursor = self.conn.cursor()
         cursor.execute('SELECT number_of_copies_left FROM BOOKS WHERE isbn=?', (isbn,))
 
-        return cursor.fetchone()[0]
+        row = cursor.fetchone()
+        if row is None:
+            return 0
+        else:
+            return row[0]
 
     def search_books_by_title(self, title):
         """Search all books by title.
@@ -594,6 +598,7 @@ if __name__ == '__main__':
     # Return the book
     library.return_book(susan, mockingbird)
     assert library.get_number_of_available_copies(mockingbird.isbn) == 1, "Oops!"
+    assert library.get_number_of_available_copies(12341341) == 0, "Oops"
 
     assert library.checkout_book(john, mockingbird) is True, "Oops!"
     assert len(library.get_checkouts_for_user(john)) == 1, "Oops!"

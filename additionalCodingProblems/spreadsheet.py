@@ -162,10 +162,12 @@ def replace_current_cell_in_formulas(m, current_cell, value_cells_left_to_evalua
     cell_excel_representation = cell_idx_to_excel_representation(current_cell)
     cells_to_remove = []
     for function_cell in function_cells_left_to_evaluate:
-        if cell_excel_representation in m[function_cell[0]][function_cell[1]]:
-            m[function_cell[0]][function_cell[1]] = string.replace(m[function_cell[0]][function_cell[1]],
-                                                                   cell_excel_representation,
-                                                                   str(m[current_cell[0]][current_cell[1]]))
+        print cell_excel_representation
+        print m[function_cell[0]][function_cell[1]].upper()
+        if cell_excel_representation in m[function_cell[0]][function_cell[1]].upper():
+            m[function_cell[0]][function_cell[1]] = string.replace(m[function_cell[0]][function_cell[1]].upper(),
+                cell_excel_representation,
+                str(m[current_cell[0]][current_cell[1]]))
             remaining_excel_representations = re.search('[a-zA-Z]', m[function_cell[0]][function_cell[1]])
             if remaining_excel_representations is None:
                 m[function_cell[0]][function_cell[1]] = m[function_cell[0]][function_cell[1]][1:]
@@ -256,6 +258,18 @@ m5 = [
     ["=B1 + 1", "=A1 + 1"]
 ]
 
+m6 = [
+    ["=C1+5", "=A3/2", "=c2-1"],
+    ["=b3+7", 1, "=B1*4"],
+    ["=B2+5", "=a1/5", "=A2-2"]
+]
+
+solution6 = [
+    [13, 3, 8],
+    [16, 1, 9],
+    [6, 9, 14]
+]
+
 
 def validate(proposed, actual):
     """Check if the proposed solution is the same as the actual solution.
@@ -328,5 +342,9 @@ if __name__ == '__main__':
         print "    OK."
         correct += 1
 
+    if validate(evaluate(m6), solution6):
+        print "    OK."
+        correct += 1
+
     print "------------------------------------------------------"
-    print "You got {0} out of 5 correct.".format(correct)
+    print "You got {0} out of 6 correct.".format(correct)
